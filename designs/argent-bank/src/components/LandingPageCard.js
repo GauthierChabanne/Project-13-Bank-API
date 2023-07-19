@@ -16,8 +16,6 @@ LandingPageCard.propTypes = {
   alt: PropTypes.string,
   title: PropTypes.string,
   text: PropTypes.string,
-
-
 }
 
 export default LandingPageCard

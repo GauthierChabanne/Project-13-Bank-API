@@ -14,10 +14,10 @@ function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </NavLink>
       <div>
-        <a className="main-nav-item" href="./sign-in.html">
+        <NavLink to="/signIn" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
           Sign In
-        </a>
+        </NavLink>
       </div>
     </nav>
   )
