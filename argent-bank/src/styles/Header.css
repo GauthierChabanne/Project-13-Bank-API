@@ -25,4 +25,16 @@
 .main-nav .main-nav-logo .main-nav-logo-image {
   max-width: 100%;
   width: 200px;
-}/*# sourceMappingURL=header.css.map */
+}
+
+.main-button-out {
+  background-color: rgb(255, 255, 255);
+  border: none;
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 17px;
+}
+
+.main-icon-signOut {
+  font-size: 100px;
+}

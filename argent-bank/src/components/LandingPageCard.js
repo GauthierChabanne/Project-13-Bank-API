@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 function LandingPageCard(props) {
   return(
     <div className='feature-item'>
-      <img src={props.img} alt={props.alt} class="feature-icon" />
-      <h3 class="feature-item-title">{props.title}</h3>
+      <img src={props.img} alt={props.alt} className="feature-icon" />
+      <h3 className="feature-item-title">{props.title}</h3>
       <p>{props.text}</p>
     </div>
   )
