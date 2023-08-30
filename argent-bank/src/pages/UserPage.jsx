@@ -1,6 +1,6 @@
 import "../styles/UserPage.css"
 import UserPageCard from "../components/UserPageCard"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { axiosPutUser } from '../database/callApi';
 import * as connectionActions from '../outils/connection';
@@ -25,6 +25,13 @@ function UserPage(){
     dispatch(connectionActions.getUser({firstName:axios.firstName,lastName:axios.lastName}))
     setdisplayEditName(!displayEditName)
   }
+
+  useEffect(()=>{
+    if(!stateReduxToken){
+      navigate("/signIn")
+    }
+  },[stateReduxToken])
+
 
   if(stateReduxToken){
     return(
@@ -64,7 +71,7 @@ function UserPage(){
         </div>
         <h2 className="sr-only">Accounts</h2>
         <UserPageCard
-          title="Argent Bank Checking (x8349)</"
+          title="Argent Bank Checking (x8349)"
           amount="$2,082.79"
           description="Available Balance"
           />
@@ -80,8 +87,6 @@ function UserPage(){
           />
       </main>
     )
-  } else {
-      navigate("/signIn")
   }
 }
 

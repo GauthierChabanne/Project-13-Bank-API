@@ -1,0 +1,198 @@
+openapi: 3.0.3
+info:
+  title: Bank Argent API document - Transactions
+  version: '1.0.0'
+  description: |-
+    Contains all available API endpoints related to transactions in this codebase
+servers:
+  - url: localhost:3001/api/v1
+tags:
+  - name: Transaction
+paths:
+  /{accountId}/transactions:
+    get:
+      tags:
+        - Transaction
+      summary: See all current month transactions for this account
+      description: See all current month transactions for this account
+      operationId: getTransactions
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of the account
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Account not found
+      security:
+        - api_key: []
+        - transaction_auth:
+            - write:transactions
+            - read:transactions
+  paths:
+  /transaction/{transactionId}:
+    get:
+      tags:
+        - Transaction
+      summary: Find a transaction by ID
+      description: Returns a single transaction
+      operationId: getTransactionsById
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of transaction to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Transaction not found
+      security:
+        - api_key: []
+        - transaction_auth:
+            - write:transactions
+            - read:transactions
+    post:
+      tags:
+        - Transaction
+      summary: Updates a transaction with form data
+      description: Update a single transaction from a form
+      operationId: updateTransactionWithForm
+      parameters:
+        - name: transactionId
+          in: path
+          description: ID of transaction that needs to be updated
+          required: true
+          schema:
+            type: string
+        - name: details
+          in: query
+          description: Details of transaction that needs to be updated
+          schema:
+            type: string
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - transaction_auth:
+            - write:transactions
+            - read:transactions
+
+components:
+  schemas:
+    Account:
+      required:
+          - userId
+      type: object
+      properties:
+        id:
+          type: string
+          example: 10
+        userId:
+          type: string
+          example: 198772
+        name:
+          type: string
+          example: Argent Bank Checking
+        balance:
+          type: integer
+          format: int64
+          example: 2082.79
+        status:
+          type: string
+          description: Account Status
+          example: approved
+          enum:
+            - Available balance
+            - Current Balance
+        closed:
+          type: boolean
+          example: false
+      xml:
+        name: account
+
+    Transaction:
+      required:
+        - accountId
+      type: object
+      properties:
+        id:
+          type: string
+          example: 10
+        accountId:
+          type: string
+          example: 20
+        details:
+          type: string
+          example: Virement pour Maman
+        amount:
+          type: integer
+          format: int64
+          example: 1000
+        date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: transaction status
+          enum:
+            - pending
+            - completed
+        complete:
+          type: boolean
+      xml:
+        name: transaction
+    ApiResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type: string
+        body:
+          type: object
+          properties:
+            id:
+              type: string
+            details:
+              type: string
+      xml:
+        name: '##default'
+  securitySchemes:
+    transaction_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:transaction: modify transaction in your account
+            read:transaction: read your transaction
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
