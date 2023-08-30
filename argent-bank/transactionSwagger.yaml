@@ -29,10 +29,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Account'
+                $ref: '#/components/schemas/TransactionsList'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Account'
+                $ref: '#/components/schemas/TransactionsList'
         '400':
           description: Invalid ID supplied
         '404':
@@ -135,6 +135,13 @@ components:
       xml:
         name: account
 
+    TransactionsList:
+      required:
+       - accountId
+      type: array
+      items:
+        $ref: '#/components/schemas/Transaction'
+
     Transaction:
       required:
         - accountId
@@ -166,23 +173,6 @@ components:
           type: boolean
       xml:
         name: transaction
-    ApiResponse:
-      type: object
-      properties:
-        status:
-          type: integer
-          format: int32
-        message:
-          type: string
-        body:
-          type: object
-          properties:
-            id:
-              type: string
-            details:
-              type: string
-      xml:
-        name: '##default'
   securitySchemes:
     transaction_auth:
       type: oauth2
