@@ -10,7 +10,7 @@ function Routing(){
       <Route path="/" element={<LandingPage />} />
       <Route path="/signIn" element={<SignInPage />} />
       <Route path="/user" element={<UserPage />} />
-      <Route path="*" component={ <Error /> }/>
+      <Route path="*" element={ <Error /> }/>
     </Routes>
   )
 }
